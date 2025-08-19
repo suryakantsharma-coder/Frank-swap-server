@@ -73,5 +73,20 @@
     "signature": "22KsBwiHQmSqnzeW5Ar8THTGGw1ovfjbCnRHD9cFTsPj2adtToDwhSfGqKtg8qktV2Zf5J2biqCrYeaiRP5L8vUg",
     "storedAt": "2025-08-19T06:37:58.070Z",
     "version": "1.0"
+  },
+  "3eAUDG6oDpBapXzSayoLL45djLZiFSaEx9vikDgQLBEyVkVmisiQHZXVhzrXoMV1eSMozmWqehhphfvHocjT3aeR": {
+    "from": "9L6FimdSBGQ2DfvxcVpZsdZ2m2ZRSZvcmb7U31HjeDn9",
+    "to": "DQrck3fr5Ta4a22DbPXMeWfqoCtmntHx2ky9M5BmbwGa",
+    "amount": 1,
+    "status": "success",
+    "swap": {
+      "success": true,
+      "txSignature": "YjECbzAu71FDQuWUWp1W66i1McLv33THsDYD2sWaW53EV2dvCFPvWH8ZtmadTLuNfmws6BMsuHjQM7zxvUAuF4F"
+    },
+    "timestamp": "2025-08-19T08:37:09.895Z",
+    "transferSignature": "3eAUDG6oDpBapXzSayoLL45djLZiFSaEx9vikDgQLBEyVkVmisiQHZXVhzrXoMV1eSMozmWqehhphfvHocjT3aeR",
+    "signature": "3eAUDG6oDpBapXzSayoLL45djLZiFSaEx9vikDgQLBEyVkVmisiQHZXVhzrXoMV1eSMozmWqehhphfvHocjT3aeR",
+    "storedAt": "2025-08-19T08:37:09.896Z",
+    "version": "1.0"
   }
 }

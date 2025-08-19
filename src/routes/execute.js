@@ -18,7 +18,7 @@ const calculateTokenToBeSend = async (amount, mint) => {
     const price = await fetchJupiterPrices([mint]);
     const tokenPrice = price.data[mint];
     const usdAmount = parseFloat(tokenPrice?.usdPrice || '0') * parseFloat(amount || '0');
-    const frankAmount = usdAmount * getCurrentValue();
+    const frankAmount = usdAmount / getCurrentValue();
     const convertIndecimal = frankAmount.toFixed(2) * 10 ** 6;
     console.log({ convertIndecimal, usdAmount, frankAmount, tokenPrice, amount, price });
     return convertIndecimal;

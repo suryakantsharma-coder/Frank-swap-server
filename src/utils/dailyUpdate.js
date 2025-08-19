@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 
-let currentValue = 0;
+let currentValue = 0.26;
 
 export function updateValue() {
   currentValue += 0.019;
