@@ -1,0 +1,53 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (secrets)
+.env
+.env.*       # .env.local, .env.production, etc.
+
+# Build / dist
+dist/
+build/
+.cache/
+.next/
+out/
+
+# Logs
+logs
+*.log
+*.log.*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Important: private keys, certs, configs
+*.pem
+*.key
+*.crt
+*.cert
+*.pfx
+
+# Lock files (optional, if you don't want to commit them)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
