@@ -6,7 +6,7 @@ import { config } from '../config/index.js';
 import { fetchJupiterPrices } from '../data/price.js';
 import { setCurrentValue, getCurrentValue } from '../utils/dailyUpdateV2.js';
 import { getValue, setValue } from '../utils/sellTokens.js';
-import { getTokenBalance } from '../utils/solana-helper.js';
+import { getBalanceoftreasury } from '../utils/splbalance.js';
 
 export const price = Router();
 
@@ -24,10 +24,11 @@ price.post('/price', apiKeyGuard, decryptRequest, async (req, res) => {
 
   if (tokens.length > 0) {
     const price = await fetchJupiterPrices(tokens);
-    // const balance = await getTokenBalance();
+    const balance = await getBalanceoftreasury();
     return res.json({
       price: price?.data,
       currentRateOfFranz: getCurrentRateOfFranz,
+      balance,
       timestamp: new Date().toISOString(),
     });
   }
