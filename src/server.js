@@ -10,7 +10,9 @@ import { execute } from './routes/execute.js';
 import { auth } from './routes/auth.js';
 import { data } from './routes/data.js';
 import { price } from './routes/price.js';
-import { startDailyUpdater } from './utils/dailyUpdate.js';
+import { startDailyUpdater } from './utils/dailyUpdateV2.js';
+import { txn } from './routes/transaction.js';
+// import { startDailyUpdater } from './utils/dailyUpdate.js';
 
 const app = express();
 
@@ -41,6 +43,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use(txn);
 app.use(execute);
 app.use(auth);
 app.use(data);

@@ -6,11 +6,18 @@ import {
   clusterApiUrl,
   sendAndConfirmTransaction,
 } from '@solana/web3.js';
-import { getOrCreateAssociatedTokenAccount, createTransferInstruction } from '@solana/spl-token';
+import {
+  getOrCreateAssociatedTokenAccount,
+  createTransferInstruction,
+  getAssociatedTokenAddress,
+  getAccount,
+} from '@solana/spl-token';
 import * as bip39 from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 import dotenv from 'dotenv';
 dotenv.config();
+
+const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
 export function extractTransactionDetails(tx) {
   if (!tx?.meta?.preTokenBalances || !tx?.meta?.postTokenBalances) {
@@ -208,5 +215,49 @@ export async function sendTokenToUser(toAddress, amount) {
     return { success: true, txSignature: signature };
   } catch (err) {
     return { error: err.message, status: 500 };
+  }
+}
+
+export async function getTokenBalance(mintAddress) {
+  try {
+    const { treasury, mint } = await getTransuryWallet();
+    const walletPubkey = new PublicKey(treasury);
+    const mintPubkey = new PublicKey(mint);
+    console.log({ walletPubkey, mintPubkey });
+
+    // // Get Associated Token Account (ATA)
+    // const ata = await getAssociatedTokenAddress(mintPubkey, treasury);
+
+    // // Fetch account info
+    // const accountInfo = await getAccount(connection, ata);
+
+    // // Balance = raw amount / (10^decimals)
+    // const decimals = accountInfo.amount.decimalPlaces ?? 0; // safer handling
+    // const balance = Number(accountInfo.amount) / Math.pow(10, accountInfo.decimals);
+
+    // console.log({ mintAddress, balance, decimals, accountInfo });
+
+    // return balance;
+
+    // Fetch all token accounts for this wallet + mint
+    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(walletPubkey, {
+      mint: mintPubkey,
+    });
+
+    console.log({ tokenAccounts });
+
+    if (tokenAccounts.value.length === 0) {
+      // Wallet has no token account for this mint
+      return 0;
+    }
+
+    const accountInfo = tokenAccounts.value[0].account.data.parsed.info.tokenAmount;
+
+    // Convert bigint string into number with decimals
+    const balance = Number(accountInfo.amount) / Math.pow(10, accountInfo.decimals);
+    return balance;
+  } catch (err) {
+    console.error('Error fetching token balance:', err.message);
+    return 0;
   }
 }

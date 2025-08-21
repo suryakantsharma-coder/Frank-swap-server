@@ -33,7 +33,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Configuration
-const TX_STORE_FILE = path.join(process.cwd(), 'transactions.json');
+const TX_STORE_FILE = path.join(process.cwd(), './src/database/transactions.json');
 const BACKUP_DIR = path.join(process.cwd(), 'backups');
 
 // Ensure backup directory exists
@@ -48,7 +48,6 @@ function loadTxStore() {
   try {
     // Check if file exists
     if (!fs.existsSync(TX_STORE_FILE)) {
-      console.log('📁 Transaction store file not found, creating new one');
       const initialStore = {};
       saveTxStore(initialStore);
       return initialStore;
@@ -59,7 +58,6 @@ function loadTxStore() {
 
     // Check if file is empty
     if (!fileContent.trim()) {
-      console.log('📁 Transaction store file is empty, initializing');
       const initialStore = {};
       saveTxStore(initialStore);
       return initialStore;
@@ -73,7 +71,7 @@ function loadTxStore() {
       throw new Error('Invalid store format - not an object');
     }
 
-    console.log(`📊 Loaded ${Object.keys(store).length} transactions from store`);
+    // console.log(`📊 Loaded ${Object.keys(store).length} transactions from store`);
     return store;
   } catch (error) {
     console.error('❌ Error loading transaction store:', error.message);
@@ -85,14 +83,12 @@ function loadTxStore() {
         const backupName = `corrupted-${Date.now()}.json`;
         const backupPath = path.join(BACKUP_DIR, backupName);
         fs.copyFileSync(TX_STORE_FILE, backupPath);
-        console.log(`📋 Corrupted file backed up to: ${backupPath}`);
       } catch (backupError) {
         console.error('Failed to backup corrupted file:', backupError.message);
       }
     }
 
     // Return empty store and reinitialize
-    console.log('🔄 Initializing fresh transaction store');
     const freshStore = {};
     saveTxStore(freshStore);
     return freshStore;
@@ -117,7 +113,7 @@ function saveTxStore(store) {
     // Atomic rename (prevents corruption during write)
     fs.renameSync(tempFile, TX_STORE_FILE);
 
-    console.log(`💾 Saved ${Object.keys(store).length} transactions to store`);
+    // console.log(`💾 Saved ${Object.keys(store).length} transactions to store`);
     return true;
   } catch (error) {
     console.error('❌ Error saving transaction store:', error.message);
@@ -159,7 +155,6 @@ export function storeTransaction(signature, data) {
 
     // Check if transaction already exists
     if (store[signature]) {
-      console.log(`⚠️  Transaction ${signature} already exists`);
       return {
         status: 'exists',
         message: 'Transaction already stored',
