@@ -24,11 +24,10 @@ price.post('/price', apiKeyGuard, decryptRequest, async (req, res) => {
 
   if (tokens.length > 0) {
     const price = await fetchJupiterPrices(tokens);
-    const balance = await getTokenBalance();
+    // const balance = await getTokenBalance();
     return res.json({
       price: price?.data,
       currentRateOfFranz: getCurrentRateOfFranz,
-      balance: `${balance}`,
       timestamp: new Date().toISOString(),
     });
   }
