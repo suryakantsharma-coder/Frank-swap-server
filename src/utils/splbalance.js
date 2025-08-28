@@ -75,7 +75,7 @@ async function getSplTokenBalance(
 
 export async function getBalanceoftreasury() {
   try {
-    const walletAddress = 'DQrck3fr5Ta4a22DbPXMeWfqoCtmntHx2ky9M5BmbwGa';
+    const walletAddress = '7pE2GJaaqWFPzZh31CHyWHtKwRAvnwzvxTELpAN1ED4q';
     const usdcMint = 'pdnmN1LAcPjahDoz588sPPeBbeixVGWqib63V7bkcyb';
 
     console.log('Fetching USDC balance...');

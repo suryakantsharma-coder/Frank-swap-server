@@ -15,6 +15,7 @@ import {
 import * as bip39 from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 import dotenv from 'dotenv';
+import bs58 from 'bs58';
 dotenv.config();
 
 const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
@@ -175,10 +176,17 @@ const getTransuryWallet = async () => {
   return { treasury, mint: new PublicKey(process.env.MINT_ADDRESS) };
 };
 
+const getTransuryWalletByKey = async () => {
+  const secretKey = bs58.decode(process.env.PRIVATE_KEY);
+  const treasury = Keypair.fromSecretKey(secretKey);
+  const publicKey = treasury.publicKey.toBase58();
+  return { treasury, mint: new PublicKey(process.env.MINT_ADDRESS) };
+};
+
 export async function sendTokenToUser(toAddress, amount) {
   try {
     console.log('Received request to send token:', { toAddress, amount });
-    const { treasury, mint } = await getTransuryWallet();
+    const { treasury, mint } = await getTransuryWalletByKey();
     if (!toAddress || !amount) {
       return res.status(400).json({ error: 'toAddress and amount required' });
     }
@@ -220,7 +228,7 @@ export async function sendTokenToUser(toAddress, amount) {
 
 export async function getTokenBalance(mintAddress) {
   try {
-    const { treasury, mint } = await getTransuryWallet();
+    const { treasury, mint } = await getTransuryWalletByKey();
     const walletPubkey = new PublicKey(treasury);
     const mintPubkey = new PublicKey(mint);
     console.log({ walletPubkey, mintPubkey });
